@@ -1,0 +1,23 @@
+objective: create a physics engine that could simulate 2-d motion and collisions.
+
+
+needs to:
+	* incorporate threading for refreshing
+	* have an interactive GUI
+
+function: 
+	* engine updates with 30 times / second
+	* at each update the equation are recalculated and
+	  determine the changes for the next step.
+	* measurements are calculated in SI units, but
+	  are converted to pixels for distance measurements
+
+Phase I) create simple GUI for the physics engine interface
+Phase II) use kinematics equations to calculate the position of
+		 the object in its trajectory
+Phase III) add collision detection using conservation of momentum
+
+
+issues:
+	* resizing grid involves changing the PIXELS_PER_METER constant
+	* doesn't show METERS_IN_X meters on the grid 
