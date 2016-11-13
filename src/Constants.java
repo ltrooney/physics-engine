@@ -6,7 +6,10 @@ public class Constants {
 	public static final int ENG_HEIGHT = 750;						// height of engin
 	public static final String ENG_TITLE = "Physics Engine v1.0";	// title of engine
 	
-	public static final int METERS_IN_X = 50;								// # of meters on the x-axis
+	public static final int METERS_IN_X = 50;						// # of meters on the x-axis
+	
+	// path
+	public static final int PATH_RESOLUTION = 3;					// higher value = lower resolution
 	
 	// conversion
 	public static final int PIXELS_PER_METER = ENG_WIDTH / METERS_IN_X;		// # pixels / 1 meter 

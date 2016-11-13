@@ -1,6 +1,7 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -59,11 +60,25 @@ public class Engine extends JFrame {
 			
 			// draw every object in the scene
 			for(Object obj : objects) {
-				g.setColor(Color.BLACK);
+				g.setColor(obj.getColor());
 				
-				System.out.println(obj);
+				//System.out.println(obj + "\n");
+				
+				// draw the object and add its grid coordinate
 				g.fillRect(obj.getXPos(), obj.getYPos(), obj.getWidth(), obj.getHeight());
 				
+				
+				// draw the trajectory path
+				for(int i = 1; i < obj.pathCoords.size(); i++) {
+					int currX, currY, lastX, lastY;
+					Integer[] lastCoord = obj.pathCoords.get(i-1);
+					Integer[] currCoord = obj.pathCoords.get(i);
+					currX = (int) currCoord[0];
+					currY = (int) currCoord[1];
+					lastX = (int) lastCoord[0];;
+			        lastY = (int) lastCoord[1];;
+					g.drawLine(lastX, lastY, currX, currY);
+				}				
 				
 				// temporary fix to synch the time of the object with 
 				// the time of the engine update
@@ -76,7 +91,6 @@ public class Engine extends JFrame {
 			try {
 				Thread.sleep(Constants.TICK_SPEED);		// 28 for 30 fps
 			} catch (InterruptedException e) { e.printStackTrace(); }
-			System.out.println();
 			
 			frames++;
 			
@@ -84,7 +98,7 @@ public class Engine extends JFrame {
 			if(frames == Constants.FRAMES_PER_SECOND) {
 				now = System.currentTimeMillis();
 				timeDifference = now - start;
-				System.out.println(Constants.FRAMES_PER_SECOND + " frames per " + timeDifference + " ms");
+				System.out.println(Constants.FRAMES_PER_SECOND + " frames in " + timeDifference + " ms");
 				start = now;
 				frames = 0;
 			}

@@ -1,14 +1,18 @@
+import java.awt.Color;
+import java.util.ArrayList;
 
-
-// fix y orientation
-//	ie. not launching in the direction it is supposed to when given direction
-// allow for user to set the grid dimension
 
 public class Object {
 	int width;			// width in pixels
 	int height	;		// height in pixels
 	final int CENTER_Y = width/2;
 	final int CENTER_X = height/2;
+	
+	int pathCounter = 1;	// # of iterations that passed since last path line drawn
+	
+	Color c;
+	
+	ArrayList<Integer[]> pathCoords;
 	
 	// shared variables
 	double t; 				// initial start time (in sec)
@@ -22,20 +26,37 @@ public class Object {
 	double yf, y0, vf_y, v0_y, a_y;
 	
 	public Object() {
+		c = Color.BLACK;
+		width = Constants.PIXELS_PER_METER;			// 1 meter width
+		height = Constants.PIXELS_PER_METER;		// 1 meter height
+		
 		t = 0.0;
+		theta = Math.PI/4;							// 45 deg angle
+		v0 = 15;
 		
-		setTrajectoryAngleInDegrees(75);
-		placeAt(5, 1);
-		setInitialVelocity(25);
-		setDimension(1, 1);
-		
+		x0 = 5;
 		v0_x = v0*Math.cos(theta);
-		//vf_x = v0_x;
+		vf_x = v0_x;
 		a_x = 0;
 		
+		y0 = 1;
 		v0_y = v0*Math.sin(theta);
-		a_y = -9.8;	// positive due to inverted y axis, still assuming down as negative		
+		a_y = -9.8;	// positive due to inverted y axis, still assuming down as negative	
 		
+		pathCoords = new ArrayList<Integer[]>();
+	}
+	
+	public void addCoordinate(Integer x, Integer y) {
+		Integer[] coord = {x, y};
+		pathCoords.add(coord);
+	}
+	
+	public void setColor(Color color) {
+		c = color;
+	}
+	
+	public Color getColor() {
+		return c;
 	}
 	
 	public void setDimension(int w, int h) {
@@ -54,6 +75,7 @@ public class Object {
 	
 	public void setTrajectoryAngleInDegrees(double deg) {
 		theta = deg * (Math.PI/180);
+		calculateVelocityComponents();
 	}
 	
 	public void placeAt(int x, int y) {
@@ -64,6 +86,7 @@ public class Object {
 	
 	public void setInitialVelocity(int velocity) {
 		v0 = velocity;
+		calculateVelocityComponents();
 	}
 	
 	public int getXPos() {
@@ -86,6 +109,18 @@ public class Object {
 	
 	public void incrementObjectTimeBy(double time) {
 		t += time;
+		
+		if(pathCounter == Constants.PATH_RESOLUTION) {
+			addCoordinate(getXPos(), getYPos());
+			pathCounter = 1;	// resets the path counter
+		}
+		pathCounter++;
+		
+	}
+	
+	public void calculateVelocityComponents() {
+		v0_x = v0*Math.cos(theta);
+		v0_y = v0*Math.sin(theta);
 	}
 	
 	public void simulateMotion() {
@@ -102,7 +137,7 @@ public class Object {
 	}
 	
 	public String toString() {
-		return  "t: " + t + 
+		return  "t: " + t + ", theta: " + theta + 
 				"\txf: " + xf + ", vf_x: " + vf_x + ", a_x: " + a_x + "\n" +
 				"\tyf: " + yf + ", vf_y: " + vf_y + ", a_y: " + a_y;
 	}
