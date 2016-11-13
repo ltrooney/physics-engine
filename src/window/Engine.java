@@ -1,16 +1,20 @@
+package window;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import objects.DynamicObject;
+import objects.Object;
+import constants.Constants;
 
 public class Engine extends JFrame {	
 	
 	private static final long serialVersionUID = 1L;
 	
-	ArrayList<Object> objects;
+	private ArrayList<DynamicObject> dynamicObjects;
+	private Grid grid;
 	
 	public Engine() {
 		setLayout(null);
@@ -21,11 +25,17 @@ public class Engine extends JFrame {
 		setVisible(true);
 		setTitle(Constants.ENG_TITLE);
 				
-		objects = new ArrayList<Object>();
+		dynamicObjects = new ArrayList<DynamicObject>();
+		grid = new Grid();
+		grid.setRange(50);
 	}
 	
-	public void addObject(Object o) {
-		objects.add(o);
+	public Grid getGrid() {
+		return grid;
+	}
+	
+	public void addDynamicObject(DynamicObject o) {
+		dynamicObjects.add(o);
 	}
 	
 	class DrawPane extends JPanel {	
@@ -44,41 +54,43 @@ public class Engine extends JFrame {
 			
 			// draw grid marks for y axis
 			int meter = 0;
-			for(int y = Constants.Y_TICK_START; y >= 0; y -= (Constants.PIXELS_PER_METER * Constants.TICK_OFFSET)) {
-				g.drawLine(0, y, Constants.GRID_TICK_SIZE, y);
-				g.drawString(String.valueOf(meter) + "m", Constants.GRID_TICK_SIZE + 3, y);
-				meter += Constants.TICK_OFFSET;
+			for(int y = Grid.Y_TICK_START; y >= 0; y -= Grid.TICK_GAP) {
+				g.drawLine(0, y, Grid.GRID_TICK_SIZE, y);
+				g.drawString(String.valueOf(meter) + "m", Grid.GRID_TICK_SIZE + 3, y);
+				meter += Grid.TICK_OFFSET;
 			}
 			
 			// draw grid marks for x axis
 			meter = 0;
-			for(int x = Constants.X_TICK_START; x <= Constants.ENG_WIDTH; x += (Constants.PIXELS_PER_METER * Constants.TICK_OFFSET)) {
-				g.drawLine(x, Constants.ENG_HEIGHT - Constants.GRID_TICK_SIZE-23, x, Constants.ENG_HEIGHT);
+			for(int x = Grid.X_TICK_START; x <= Constants.ENG_WIDTH; x += Grid.TICK_GAP) {
+				g.drawLine(x, Constants.ENG_HEIGHT - Grid.GRID_TICK_SIZE-23, x, Constants.ENG_HEIGHT);
 				g.drawString(String.valueOf(meter) + "m", x+7, Constants.ENG_HEIGHT-28);
-				meter += Constants.TICK_OFFSET;
+				meter += Grid.TICK_OFFSET;
 			}
 			
-			// draw every object in the scene
-			for(Object obj : objects) {
+			// update dynamic objects
+			for(DynamicObject obj : dynamicObjects) {
 				g.setColor(obj.getColor());
 				
-				//System.out.println(obj + "\n");
+				System.out.println(obj + "\n");
 				
 				// draw the object and add its grid coordinate
 				g.fillRect(obj.getXPos(), obj.getYPos(), obj.getWidth(), obj.getHeight());
 				
 				
 				// draw the trajectory path
-				for(int i = 1; i < obj.pathCoords.size(); i++) {
-					int currX, currY, lastX, lastY;
-					Integer[] lastCoord = obj.pathCoords.get(i-1);
-					Integer[] currCoord = obj.pathCoords.get(i);
-					currX = (int) currCoord[0];
-					currY = (int) currCoord[1];
-					lastX = (int) lastCoord[0];;
-			        lastY = (int) lastCoord[1];;
-					g.drawLine(lastX, lastY, currX, currY);
-				}				
+				if(obj.showPath) {
+					for(int i = 1; i < obj.pathCoords.size(); i++) {
+						int currX, currY, lastX, lastY;
+						Integer[] lastCoord = obj.pathCoords.get(i-1);
+						Integer[] currCoord = obj.pathCoords.get(i);
+						currX = (int) currCoord[0];
+						currY = (int) currCoord[1];
+						lastX = (int) lastCoord[0];;
+				        lastY = (int) lastCoord[1];;
+						g.drawLine(lastX, lastY, currX, currY);
+					}
+				}
 				
 				// temporary fix to synch the time of the object with 
 				// the time of the engine update
