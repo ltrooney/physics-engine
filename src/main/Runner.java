@@ -1,8 +1,6 @@
 package main;
 import java.awt.Color;
-
 import objects.DynamicObject;
-import objects.Object;
 import window.Engine;
 
 

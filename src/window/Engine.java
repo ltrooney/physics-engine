@@ -1,4 +1,6 @@
 package window;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -6,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import objects.DynamicObject;
-import objects.Object;
 import constants.Constants;
 
 public class Engine extends JFrame {	
@@ -15,15 +16,24 @@ public class Engine extends JFrame {
 	
 	private ArrayList<DynamicObject> dynamicObjects;
 	private Grid grid;
+	private AttributeEditor valueChanger;
+	private Scene scene;
 	
 	public Engine() {
-		setLayout(null);
+		scene = new Scene();
+		valueChanger = new AttributeEditor();
+		setLayout(new BorderLayout());
 		setContentPane(new DrawPane());
-		setSize(Constants.ENG_WIDTH, Constants.ENG_HEIGHT);
+		setMinimumSize(new Dimension(Constants.ENG_WIDTH, Constants.ENG_HEIGHT));
+		setMaximumSize(new Dimension(Constants.ENG_WIDTH, Constants.ENG_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setTitle(Constants.ENG_TITLE);
+		
+		add(scene, BorderLayout.WEST);
+		add(valueChanger, BorderLayout.EAST);
+		pack();
 				
 		dynamicObjects = new ArrayList<DynamicObject>();
 		grid = new Grid();
@@ -62,9 +72,9 @@ public class Engine extends JFrame {
 			
 			// draw grid marks for x axis
 			meter = 0;
-			for(int x = Grid.X_TICK_START; x <= Constants.ENG_WIDTH; x += Grid.TICK_GAP) {
-				g.drawLine(x, Constants.ENG_HEIGHT - Grid.GRID_TICK_SIZE-23, x, Constants.ENG_HEIGHT);
-				g.drawString(String.valueOf(meter) + "m", x+7, Constants.ENG_HEIGHT-28);
+			for(int x = Grid.X_TICK_START; x <= Constants.SCENE_WIDTH; x += Grid.TICK_GAP) {
+				g.drawLine(x, Constants.SCENE_HEIGHT - Grid.GRID_TICK_SIZE-23, x, Constants.SCENE_HEIGHT);
+				g.drawString(String.valueOf(meter) + "m", x+7, Constants.SCENE_HEIGHT-28);
 				meter += Grid.TICK_OFFSET;
 			}
 			
@@ -72,7 +82,7 @@ public class Engine extends JFrame {
 			for(DynamicObject obj : dynamicObjects) {
 				g.setColor(obj.getColor());
 				
-				System.out.println(obj + "\n");
+				//System.out.println(obj + "\n");
 				
 				// draw the object and add its grid coordinate
 				g.fillRect(obj.getXPos(), obj.getYPos(), obj.getWidth(), obj.getHeight());
