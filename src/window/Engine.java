@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import objects.DynamicObject;
+import window.attributeeditor.AttributeEditor;
 import constants.Constants;
 
 public class Engine extends JFrame {	
@@ -28,7 +29,6 @@ public class Engine extends JFrame {
 		setVisible(true);
 		setTitle(Constants.ENG_TITLE);
 		
-		//add(scene, BorderLayout.WEST);
 		add(valueChanger, BorderLayout.EAST);
 		pack();				
 	}

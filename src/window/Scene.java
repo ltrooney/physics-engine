@@ -23,9 +23,7 @@ public class Scene extends JPanel {
 	double timeDifference = 1000;	// tracks the amount of time taken to render 30 frames
 	
 	public Scene() {
-		grid = new Grid();
-		grid.setRange(50);
-		
+		grid = new Grid();		
 		dynamicObjects = new ArrayList<DynamicObject>();
 		
 		setLayout(new BorderLayout());

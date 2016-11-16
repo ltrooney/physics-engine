@@ -1,10 +1,10 @@
-package window;
+package window.attributeeditor;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 import constants.Constants;
 
@@ -22,20 +22,23 @@ public class AttributeEditor extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel currentVelocityLabel;
-	private JSlider velocitySlider;
+	SimulationAttributes simulationView;
+	ObjectAttributes objectView;
+	EnvironmentAttributes envView;
+	
 	
 	public AttributeEditor() {
-		setPreferredSize(new Dimension(Constants.VCP_WIDTH, Constants.ENG_HEIGHT));
-		currentVelocityLabel = new JLabel("Current velocity: ");
+		setBackground(new Color(230, 230, 230));
+		setPreferredSize(new Dimension(Constants.EDITOR_WIDTH, Constants.ENG_HEIGHT));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		velocitySlider = new JSlider(0, 50);
-		velocitySlider.setValue(15);
-		velocitySlider.setMajorTickSpacing(5);
-		velocitySlider.setPaintTicks(true);
-		
-		add(currentVelocityLabel);
-		add(velocitySlider);
+		simulationView = new SimulationAttributes();
+		objectView = new ObjectAttributes();
+		envView = new EnvironmentAttributes();
+
+		add(simulationView);
+		add(objectView);
+		add(envView);
 	}
 	
 }

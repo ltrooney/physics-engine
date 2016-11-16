@@ -18,7 +18,7 @@ public class Runner {
 		obj1.setInitialVelocity(10);
 		obj1.setDimension(2, 2);
 		
-		obj2.setColor(Color.GREEN);
+		obj2.setColor(Color.BLUE);
 		obj2.setInitialVelocity(20);
 		obj2.placeAt(10, 0);
 		obj2.setTrajectoryAngleInDegrees(70);

@@ -14,7 +14,7 @@ public class Grid {
 	
 	public Grid() {
 		TICK_OFFSET = 5;
-		METERS_IN_X = 75;
+		METERS_IN_X = 50;
 		calculateVariables();
 	}
 	
@@ -31,6 +31,7 @@ public class Grid {
 	public void setRange(int range) {
 		// sets x axis range and accounts for the shift from the floor
 		METERS_IN_X = range +  (Constants.FLOOR_X/PIXELS_PER_METER);
+		System.out.println(METERS_IN_X + "m");
 		calculateVariables();
 	}
 }
