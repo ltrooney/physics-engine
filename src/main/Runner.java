@@ -33,6 +33,7 @@ public class Runner {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) { e.printStackTrace(); }
+		
 		engine.addDynamicObject(obj1);
 		engine.addDynamicObject(obj2);
 		engine.addDynamicObject(obj3);

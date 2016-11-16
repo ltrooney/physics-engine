@@ -13,8 +13,8 @@ public class BulletSimulation {
 		obj1.setTrajectoryAngleInDegrees(0);
 		obj1.setInitialVelocity(400);
 		obj1.placeAt(0, 5);
-		engine.getGrid().setRange(500);
-		engine.getGrid().setTickOffset(50);
+		engine.setRange(500);
+		engine.setTickOffset(50);
 		engine.addDynamicObject(obj1);		
 	}
 
