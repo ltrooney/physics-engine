@@ -13,6 +13,7 @@ public class Engine extends JFrame {
 	private AttributeEditor attrEditor;
 	private Scene scene;
 	private static double simulationTimeElapsed;
+	private static double simulationTimeIncrement;		// # of seconds to increase the simulation time by in each refresh
 	
 	public Engine() {
 		scene = new Scene();
@@ -28,6 +29,7 @@ public class Engine extends JFrame {
 		setTitle(Constants.ENG_TITLE);
 		
 		simulationTimeElapsed = 0.0;
+		simulationTimeIncrement = 0.0333;
 		
 		add(attrEditor, BorderLayout.EAST);
 		pack();				
@@ -57,13 +59,20 @@ public class Engine extends JFrame {
 		simulationTimeElapsed = time;
 	}
 	
+	public static void setSimulationTimeIncrement(double time) {
+		simulationTimeIncrement = time;
+	}
+	
 	public static void incrementSimulationTimeBy(double time) {
 		simulationTimeElapsed += time;
-		System.out.println(simulationTimeElapsed);
 	}
 	
 	public static double getSimulationTimeElapsed() {
 		return simulationTimeElapsed;
+	}
+	
+	public static double getSimulationTimeIncrement() {
+		return simulationTimeIncrement;
 	}
 
 }

@@ -18,6 +18,7 @@ public class Scene extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	private Grid grid;
 	private static boolean isPlaying;
+	private static double skipIncrement;
 	
 	long start = System.currentTimeMillis();
 	long now;
@@ -29,6 +30,7 @@ public class Scene extends JPanel implements MouseListener {
 		grid = new Grid();		
 		dynamicObjects = new ArrayList<DynamicObject>();
 		isPlaying = true;
+		skipIncrement = 0.5;
 		addMouseListener(this);
 		
 		setLayout(new BorderLayout());
@@ -46,10 +48,15 @@ public class Scene extends JPanel implements MouseListener {
 		Engine.setSimulationTimeElapsed(0.0);
 	}
 	public static void skip() {
-		Engine.setSimulationTimeElapsed(Engine.getSimulationTimeElapsed() + 0.5);
+		Engine.setSimulationTimeElapsed(Engine.getSimulationTimeElapsed() + skipIncrement);
+	}
+	
+	public static void setSkipIncrement(double inc) {
+		skipIncrement = inc;
 	}
 	
 	public void addDynamicObject(DynamicObject o) {
+		o.addCoordinate(o.getXPos(), o.getYPos());
 		dynamicObjects.add(o);
 	}
 	
@@ -75,7 +82,13 @@ public class Scene extends JPanel implements MouseListener {
 		// update dynamic objects
 		for(DynamicObject obj : dynamicObjects) {
 			g.setColor(obj.getColor());
-			obj.addCoordinate(obj.getXPos(), obj.getYPos());
+			
+			if(obj.getTime() != 0.0) {
+				obj.addCoordinate(obj.getXPos(), obj.getYPos());
+			} else {
+				obj.pathCoords.clear();
+			}
+			
 			
 			//System.out.println(obj + "\n");
 			
@@ -99,9 +112,10 @@ public class Scene extends JPanel implements MouseListener {
 	}
 	
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 				
 		if(isPlaying) {
-			Engine.incrementSimulationTimeBy(0.0333);
+			Engine.incrementSimulationTimeBy(Engine.getSimulationTimeIncrement());
 		}
 		
 		// draw floor
@@ -120,7 +134,7 @@ public class Scene extends JPanel implements MouseListener {
 		if(frames == Constants.FRAMES_PER_SECOND) {
 			now = System.currentTimeMillis();
 			timeDifference = now - start;
-			System.out.println(Constants.FRAMES_PER_SECOND + " frames in " + timeDifference + " ms");
+			System.out.println(Constants.FRAMES_PER_SECOND + " frames in " + timeDifference + " ms, sim. time elapsed: " + Engine.getSimulationTimeElapsed());
 			start = now;
 			frames = 0;
 		}

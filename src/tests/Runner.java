@@ -12,7 +12,6 @@ public class Runner {
 		DynamicObject obj2 = new DynamicObject();
 		DynamicObject obj3 = new DynamicObject();
 		
-		obj1.showPathTrajectory(true);
 		obj1.setTrajectoryAngleInDegrees(90);
 		obj1.placeAt(5, 15);
 		obj1.setInitialVelocity(25);

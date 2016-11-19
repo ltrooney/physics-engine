@@ -10,7 +10,8 @@ public class Object {
 	
 	Color c;
 	
-	private double x0, y0;
+	protected double x0;
+	protected double y0;
 	
 	public Object() {
 		c = Color.BLACK;
