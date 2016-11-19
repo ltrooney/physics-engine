@@ -75,11 +75,12 @@ public class Scene extends JPanel implements MouseListener {
 		// update dynamic objects
 		for(DynamicObject obj : dynamicObjects) {
 			g.setColor(obj.getColor());
+			obj.addCoordinate(obj.getXPos(), obj.getYPos());
 			
 			//System.out.println(obj + "\n");
 			
 			// draw the object and add its grid coordinate
-			g.fillRect(obj.getXPos(), obj.getYPos(), obj.getWidth(), obj.getHeight());
+			g.fillRect(obj.getXPos()-obj.getRadiusInPixels(), obj.getYPos()-obj.getRadiusInPixels(), obj.getWidthInPixels(), obj.getHeightInPixels());
 			
 			// draw the trajectory path
 			if(obj.showPath) {
@@ -94,22 +95,14 @@ public class Scene extends JPanel implements MouseListener {
 					g.drawLine(lastX, lastY, currX, currY);
 				}
 			}
-			
-			// temporary fix to synch the time of the object with 
-			// the time of the engine update
-		
-			//obj.incrementObjectTimeBy(double)Constants.FRAMES_PER_SECOND/timeDifference));
 		}
 	}
 	
 	public void paintComponent(Graphics g) {
-		
-		//if(!isPlaying) { return; }
-		
+				
 		if(isPlaying) {
 			Engine.incrementSimulationTimeBy(0.0333);
 		}
-		
 		
 		// draw floor
 		g.drawLine(Constants.FLOOR_X, Constants.FLOOR_Y, Constants.ENG_WIDTH, Constants.FLOOR_Y);
@@ -142,8 +135,9 @@ public class Scene extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		for(DynamicObject obj : dynamicObjects) {
-			if((e.getX() > obj.getXPos()-obj.getWidth()/2) && (e.getX() < obj.getXPos()+obj.getWidth()/2)) {
-				if((e.getY() > obj.getYPos()-obj.getHeight()/2) && (e.getY() < obj.getYPos()+obj.getHeight()/2)) {
+			if((e.getX() > obj.getXPos()-obj.getWidthInPixels()/2) && (e.getX() < obj.getXPos()+obj.getWidthInPixels()/2)) {
+				System.out.println("clicked within x");
+				if((e.getY() > obj.getYPos()-obj.getHeightInPixels()/2) && (e.getY() < obj.getYPos()+obj.getHeightInPixels()/2)) {
 					System.out.println("object clicked");
 					return;
 				}

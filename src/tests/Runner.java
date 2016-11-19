@@ -12,17 +12,19 @@ public class Runner {
 		DynamicObject obj2 = new DynamicObject();
 		DynamicObject obj3 = new DynamicObject();
 		
-		obj1.showPathTrajectory(false);
+		obj1.showPathTrajectory(true);
 		obj1.setTrajectoryAngleInDegrees(90);
 		obj1.placeAt(5, 15);
 		obj1.setInitialVelocity(25);
 		obj1.setDimension(2, 2);
 		
+		obj2.showPathTrajectory(true);
 		obj2.setColor(Color.BLUE);
 		obj2.setInitialVelocity(20);
 		obj2.placeAt(10, 0);
 		obj2.setTrajectoryAngleInDegrees(70);
 		
+		obj3.showPathTrajectory(true);
 		obj3.setColor(Color.RED);
 		obj3.setInitialVelocity(20);
 		obj3.placeAt(10, 0);

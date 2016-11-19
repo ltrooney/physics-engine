@@ -20,7 +20,7 @@ public class DynamicObject extends Object {
 	// Y:
 	private double yf, vf_y, v0_y, a_y;
 	
-	private int pathCounter = 1;	// # of iterations that passed since last path line drawn
+	private int pathCounter = 0;	// # of iterations that passed since last path line drawn
 	public boolean showPath;
 	public ArrayList<Integer[]> pathCoords;
 
@@ -39,27 +39,19 @@ public class DynamicObject extends Object {
 		v0_y = v0*Math.sin(theta);
 		a_y = -9.8;	
 		
-		showPath = true;
+		showPath = false;
 		pathCoords = new ArrayList<Integer[]>();
 	}
 	
 	public void addCoordinate(Integer x, Integer y) {
-		Integer[] coord = {x, y};
-		pathCoords.add(coord);
-	}
-
-	/*
-	public void incrementObjectTimeBy(double time) {
-		t += time;
-		
-		if(pathCounter == Constants.PATH_RESOLUTION) {
-			addCoordinate(getXPos(), getYPos());
-			pathCounter = 1;	// resets the path counter
+		if(pathCounter != Constants.PATH_RESOLUTION) {
+			Integer[] coord = {x, y};
+			pathCoords.add(coord);
+			pathCounter++;
+		} else {
+			pathCounter = 0;
 		}
-		pathCounter++;
-		
 	}
-	*/
 	
 	public void calculateVelocityComponents() {
 		v0_x = v0*Math.cos(theta);
@@ -101,7 +93,7 @@ public class DynamicObject extends Object {
 		xf = getXInitial() + (v0_x*t); 					// in (meters)
 		int xPos = (int) (xf * Grid.PIXELS_PER_METER);	// converts x position in meters to pixels
 		xPos += Constants.FLOOR_X;		// shifts the object based off of where the floor starts
-		xPos -= CENTER_X;				// places object relative to its midpoint
+		xPos -= getRadiusInPixels();				// places object relative to its midpoint
 		return xPos;					// in (pixels)
 	}
 	
@@ -112,7 +104,7 @@ public class DynamicObject extends Object {
 		
 		int yPos = (int) (yf * Grid.PIXELS_PER_METER);		// converts the y position in meters to pixels
 		yPos = Constants.FLOOR_Y - yPos;						// make y position relative to the floor
-		yPos -= CENTER_Y;										// places object relative to its midpoint
+		yPos -= getRadiusInPixels();										// places object relative to its midpoint
 		return yPos;
 	}
 	

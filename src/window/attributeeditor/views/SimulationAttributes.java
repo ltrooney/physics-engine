@@ -26,6 +26,7 @@ public class SimulationAttributes extends JPanel implements ActionListener {
 	private JButton pause;
 	private JButton forward;
 	private JSlider fastForwardSlider;
+	private JSlider speedSlider;
 	
 	public SimulationAttributes() {
 		setSize(new Dimension(Constants.EDITOR_WIDTH, Constants.SIMULATION_VIEW_HEIGHT));
@@ -47,6 +48,9 @@ public class SimulationAttributes extends JPanel implements ActionListener {
 		
 		fastForwardSlider = new JSlider(JSlider.HORIZONTAL, 100, 2000, 100);
 		add(fastForwardSlider);
+		
+		speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5);
+		add(speedSlider);
 	}
 	
 	protected JButton makeNavigationButton(String imageName,

@@ -4,11 +4,9 @@ import window.Grid;
 
 
 public class Object {
-	private int width;			// width in pixels
-	private int height;		// height in pixels
-	final int CENTER_Y = width/2;
-	final int CENTER_X = height/2;
-	final int radius = CENTER_X;
+	private double width;		// width in meters
+	private double height;		// height in meters
+	private double radius;
 	
 	Color c;
 	
@@ -16,8 +14,9 @@ public class Object {
 	
 	public Object() {
 		c = Color.BLACK;
-		width = Grid.PIXELS_PER_METER;			// 1 meter width
-		height = Grid.PIXELS_PER_METER;			// 1 meter height
+		width = 1;			// 1 meter width
+		height = 1;			// 1 meter height
+		radius = width/2;
 		
 		x0 = 5;
 		y0 = 1;
@@ -29,10 +28,9 @@ public class Object {
 	
 	public void setDimension(double w, double h) {
 		// convert meters to pixels
-		width = (int) (w*Grid.PIXELS_PER_METER);		
-		height = (int) (h*Grid.PIXELS_PER_METER);
+		width = w;		
+		height = h;
 	}
-	
 	
 	public void placeAt(int x, int y) {
 		// converts meters to pixels for each measurement
@@ -44,12 +42,28 @@ public class Object {
 		return c;
 	}
 	
-	public int getWidth() {
+	public double getWidthInMeters() {
 		return width;
 	}
 	
-	public int getHeight() {
+	public double getHeightInMeters() {
 		return height;
+	}
+	
+	public double getRadiusInMeters() {
+		return radius;
+	}
+	
+	public int getWidthInPixels() {
+		return (int) (width*Grid.PIXELS_PER_METER);
+	}
+	
+	public int getHeightInPixels() {
+		return (int) (height*Grid.PIXELS_PER_METER);
+	}
+	
+	public int getRadiusInPixels() {
+		return (int) (width/2 * Grid.PIXELS_PER_METER);
 	}
 	
 	public double getXInitial() { return x0; }
