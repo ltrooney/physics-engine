@@ -1,4 +1,4 @@
-package window.attributeeditor;
+package window.attributeeditor.views;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -2,10 +2,13 @@ package objects;
 
 import java.util.ArrayList;
 
+import window.Engine;
 import window.Grid;
 import constants.Constants;
 
 public class DynamicObject extends Object {
+	
+	private double initialSimulationTime; // simulation time that the object is created
 	
 	private double t; 
 	private double theta; 		// in radians
@@ -24,6 +27,7 @@ public class DynamicObject extends Object {
 	public DynamicObject() {
 		super();	// call Object()
 		
+		initialSimulationTime = Engine.getSimulationTimeElapsed();
 		t = 0.0;
 		theta = Math.PI/4;		// 45 deg angle
 		v0 = 15;
@@ -44,6 +48,7 @@ public class DynamicObject extends Object {
 		pathCoords.add(coord);
 	}
 
+	/*
 	public void incrementObjectTimeBy(double time) {
 		t += time;
 		
@@ -54,6 +59,7 @@ public class DynamicObject extends Object {
 		pathCounter++;
 		
 	}
+	*/
 	
 	public void calculateVelocityComponents() {
 		v0_x = v0*Math.cos(theta);
@@ -87,11 +93,12 @@ public class DynamicObject extends Object {
 	}
 	
 	public double getTime() {
-		return t;
+		return Engine.getSimulationTimeElapsed() - initialSimulationTime;
 	}
 	
 	public int getXPos() {
-		xf = getXInitial() + (v0_x*t); 			// in (meters)
+		double t = getTime();
+		xf = getXInitial() + (v0_x*t); 					// in (meters)
 		int xPos = (int) (xf * Grid.PIXELS_PER_METER);	// converts x position in meters to pixels
 		xPos += Constants.FLOOR_X;		// shifts the object based off of where the floor starts
 		xPos -= CENTER_X;				// places object relative to its midpoint
@@ -99,6 +106,7 @@ public class DynamicObject extends Object {
 	}
 	
 	public int getYPos() {
+		double t = getTime();
 		vf_y = v0_y + a_y*t;									// solve for velocity (in y-direction)
 		yf = getYInitial() + (v0_y * t) + (0.5 * a_y * Math.pow(t, 2));	// solve for position (in y-direction)
 		
@@ -109,7 +117,7 @@ public class DynamicObject extends Object {
 	}
 	
 	public String toString() {
-		return  "t: " + t + ", theta: " + theta + 
+		return  "t: " + getTime() + ", theta: " + theta + 
 				"\txf: " + xf + ", vf_x: " + vf_x + ", a_x: " + a_x + "\n" +
 				"\tyf: " + yf + ", vf_y: " + vf_y + ", a_y: " + a_y;
 	}

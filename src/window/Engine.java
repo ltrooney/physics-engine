@@ -1,24 +1,22 @@
 package window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import objects.DynamicObject;
-import window.attributeeditor.AttributeEditor;
+import window.attributeeditor.views.AttributeEditor;
 import constants.Constants;
 
 public class Engine extends JFrame {	
 	
 	private static final long serialVersionUID = 1L;
 	
-	private AttributeEditor valueChanger;
+	private AttributeEditor attrEditor;
 	private Scene scene;
+	private static double simulationTimeElapsed;
 	
 	public Engine() {
 		scene = new Scene();
-		valueChanger = new AttributeEditor();
+		attrEditor = new AttributeEditor();
 		
 		setLayout(new BorderLayout());
 		setContentPane(scene);
@@ -29,7 +27,9 @@ public class Engine extends JFrame {
 		setVisible(true);
 		setTitle(Constants.ENG_TITLE);
 		
-		add(valueChanger, BorderLayout.EAST);
+		simulationTimeElapsed = 0.0;
+		
+		add(attrEditor, BorderLayout.EAST);
 		pack();				
 	}
 	
@@ -53,10 +53,17 @@ public class Engine extends JFrame {
 		scene.grid().setRange(range);
 	}
 	
-	class DrawPane extends JPanel {	
-
-		private static final long serialVersionUID = 1L;
-		
+	public static void setSimulationTimeElapsed(double time) {
+		simulationTimeElapsed = time;
+	}
+	
+	public static void incrementSimulationTimeBy(double time) {
+		simulationTimeElapsed += time;
+		System.out.println(simulationTimeElapsed);
+	}
+	
+	public static double getSimulationTimeElapsed() {
+		return simulationTimeElapsed;
 	}
 
 }

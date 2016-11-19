@@ -3,6 +3,8 @@ package window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -10,11 +12,12 @@ import javax.swing.JPanel;
 import objects.DynamicObject;
 import constants.Constants;
 
-public class Scene extends JPanel {
+public class Scene extends JPanel implements MouseListener {
 
 	private ArrayList<DynamicObject> dynamicObjects;
 	private static final long serialVersionUID = 1L;
 	private Grid grid;
+	private static boolean isPlaying;
 	
 	long start = System.currentTimeMillis();
 	long now;
@@ -25,20 +28,32 @@ public class Scene extends JPanel {
 	public Scene() {
 		grid = new Grid();		
 		dynamicObjects = new ArrayList<DynamicObject>();
+		isPlaying = true;
+		addMouseListener(this);
 		
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT));
+	}
+	
+	public static void play() {
+		isPlaying = !isPlaying;
+	}
+	public static void pause() {
+		isPlaying = !isPlaying;
+	}
+	public static void reset() {
+		isPlaying = false;
+		Engine.setSimulationTimeElapsed(0.0);
+	}
+	public static void skip() {
+		Engine.setSimulationTimeElapsed(Engine.getSimulationTimeElapsed() + 0.5);
 	}
 	
 	public void addDynamicObject(DynamicObject o) {
 		dynamicObjects.add(o);
 	}
 	
-	public void paintComponent(Graphics g) {	
-		
-		// draw floor
-		g.drawLine(Constants.FLOOR_X, Constants.FLOOR_Y, Constants.ENG_WIDTH, Constants.FLOOR_Y);
-		
+	public void drawGrid(Graphics g) {
 		// draw grid marks for y axis
 		int meter = 0;
 		for(int y = Grid.Y_TICK_START; y >= 0; y -= Grid.TICK_GAP) {
@@ -54,7 +69,9 @@ public class Scene extends JPanel {
 			g.drawString(String.valueOf(meter) + "m", x+7, Constants.SCENE_HEIGHT-28);
 			meter += Grid.TICK_OFFSET;
 		}
-		
+	}
+	
+	public void drawObjects(Graphics g) {
 		// update dynamic objects
 		for(DynamicObject obj : dynamicObjects) {
 			g.setColor(obj.getColor());
@@ -80,10 +97,24 @@ public class Scene extends JPanel {
 			
 			// temporary fix to synch the time of the object with 
 			// the time of the engine update
-			obj.incrementObjectTimeBy(0.033);
+		
 			//obj.incrementObjectTimeBy(double)Constants.FRAMES_PER_SECOND/timeDifference));
 		}
+	}
+	
+	public void paintComponent(Graphics g) {
 		
+		//if(!isPlaying) { return; }
+		
+		if(isPlaying) {
+			Engine.incrementSimulationTimeBy(0.0333);
+		}
+		
+		
+		// draw floor
+		g.drawLine(Constants.FLOOR_X, Constants.FLOOR_Y, Constants.ENG_WIDTH, Constants.FLOOR_Y);
+		drawGrid(g);
+		drawObjects(g);
 		
 		// pause the thread
 		try {
@@ -107,6 +138,27 @@ public class Scene extends JPanel {
 	public Grid grid() {
 		return grid;
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		for(DynamicObject obj : dynamicObjects) {
+			if((e.getX() > obj.getXPos()-obj.getWidth()/2) && (e.getX() < obj.getXPos()+obj.getWidth()/2)) {
+				if((e.getY() > obj.getYPos()-obj.getHeight()/2) && (e.getY() < obj.getYPos()+obj.getHeight()/2)) {
+					System.out.println("object clicked");
+					return;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 	
 	
 }

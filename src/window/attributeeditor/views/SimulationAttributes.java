@@ -1,15 +1,18 @@
-package window.attributeeditor;
+package window.attributeeditor.views;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
+import window.Scene;
 import constants.Constants;
 
 public class SimulationAttributes extends JPanel implements ActionListener {
@@ -22,6 +25,7 @@ public class SimulationAttributes extends JPanel implements ActionListener {
 	private JButton play;
 	private JButton pause;
 	private JButton forward;
+	private JSlider fastForwardSlider;
 	
 	public SimulationAttributes() {
 		setSize(new Dimension(Constants.EDITOR_WIDTH, Constants.SIMULATION_VIEW_HEIGHT));
@@ -40,6 +44,9 @@ public class SimulationAttributes extends JPanel implements ActionListener {
 		
 		add(simulation);
 		add(buttons);
+		
+		fastForwardSlider = new JSlider(JSlider.HORIZONTAL, 100, 2000, 100);
+		add(fastForwardSlider);
 	}
 	
 	protected JButton makeNavigationButton(String imageName,
@@ -68,6 +75,14 @@ public class SimulationAttributes extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == reset) {
+			Scene.reset();
+		} else if(e.getSource() == play) {
+			Scene.play();
+		} else if(e.getSource() == pause) {
+			Scene.pause();
+		} else if(e.getSource() == forward) {
+			Scene.skip();
+		}
 	}
 }

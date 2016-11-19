@@ -10,9 +10,9 @@ public class Constants {
 	
 	// attribute editor
 	public static final int EDITOR_WIDTH = 250;
-	public static final int SIMULATION_VIEW_HEIGHT = 50;
-	public static final int OBJECT_VIEW_HEIGHT = 250;
-	public static final int ENVIRONMENT_VIEW_HEIGHT = 100;
+	public static final int SIMULATION_VIEW_HEIGHT = 200;
+	public static final int OBJECT_VIEW_HEIGHT = 300;
+	public static final int ENVIRONMENT_VIEW_HEIGHT = SCENE_HEIGHT - OBJECT_VIEW_HEIGHT - SIMULATION_VIEW_HEIGHT;
 	
 	// engine
 	public static final int ENG_WIDTH = SCENE_WIDTH + EDITOR_WIDTH;	// width of engine
@@ -21,7 +21,7 @@ public class Constants {
 
 	
 	// path
-	public static final int PATH_RESOLUTION = 4;					// higher value = lower resolution trajectory path
+	public static final int PATH_RESOLUTION = 3;					// higher value = lower resolution trajectory path
 		
 	// environment objects
 	public static final int FLOOR_Y = Grid.Y_TICK_START;					// y position of floor

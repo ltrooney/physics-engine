@@ -8,6 +8,7 @@ public class Object {
 	private int height;		// height in pixels
 	final int CENTER_Y = width/2;
 	final int CENTER_X = height/2;
+	final int radius = CENTER_X;
 	
 	Color c;
 	
@@ -26,10 +27,6 @@ public class Object {
 		c = color;
 	}
 	
-	public Color getColor() {
-		return c;
-	}
-	
 	public void setDimension(double w, double h) {
 		// convert meters to pixels
 		width = (int) (w*Grid.PIXELS_PER_METER);		
@@ -41,6 +38,10 @@ public class Object {
 		// converts meters to pixels for each measurement
 		x0 = x;
 		y0 = y;
+	}
+	
+	public Color getColor() {
+		return c;
 	}
 	
 	public int getWidth() {
