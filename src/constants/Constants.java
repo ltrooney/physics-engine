@@ -10,7 +10,7 @@ public class Constants {
 	
 	// attribute editor
 	public static final int EDITOR_WIDTH = 250;
-	public static final int SIMULATION_VIEW_HEIGHT = 300;
+	public static final int SIMULATION_VIEW_HEIGHT = 250;
 	public static final int OBJECT_VIEW_HEIGHT = 300;
 	public static final int ENVIRONMENT_VIEW_HEIGHT = SCENE_HEIGHT - OBJECT_VIEW_HEIGHT - SIMULATION_VIEW_HEIGHT;
 	

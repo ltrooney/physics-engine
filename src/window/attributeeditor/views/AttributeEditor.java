@@ -1,10 +1,11 @@
 package window.attributeeditor.views;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import constants.Constants;
 
@@ -28,7 +29,6 @@ public class AttributeEditor extends JPanel {
 	
 	
 	public AttributeEditor() {
-		setBackground(new Color(230, 230, 230));
 		setPreferredSize(new Dimension(Constants.EDITOR_WIDTH, Constants.ENG_HEIGHT));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -37,8 +37,20 @@ public class AttributeEditor extends JPanel {
 		envView = new EnvironmentAttributes();
 
 		add(simulationView);
+		add(createSeparatorView());
 		add(objectView);
+		add(createSeparatorView());
 		add(envView);
+	}
+	
+	private JPanel createSeparatorView() {
+		JPanel separatorView = new JPanel(new BorderLayout());
+		separatorView.setBorder(BorderFactory.createEmptyBorder());
+		separatorView.add(new JSeparator(JSeparator.HORIZONTAL));
+		separatorView.setMinimumSize(new Dimension(Constants.EDITOR_WIDTH, 25));
+		separatorView.setPreferredSize(new Dimension(Constants.EDITOR_WIDTH, 25));
+		separatorView.setMaximumSize(new Dimension(Constants.EDITOR_WIDTH, 25));
+		return separatorView;
 	}
 	
 }

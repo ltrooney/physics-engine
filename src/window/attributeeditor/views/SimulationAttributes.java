@@ -41,7 +41,7 @@ public class SimulationAttributes extends JPanel implements ActionListener, Chan
 	
 	
 	public SimulationAttributes() {
-		setSize(new Dimension(Constants.EDITOR_WIDTH, Constants.SIMULATION_VIEW_HEIGHT));
+		setMaximumSize(new Dimension(Constants.EDITOR_WIDTH, Constants.SIMULATION_VIEW_HEIGHT));
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -82,7 +82,7 @@ public class SimulationAttributes extends JPanel implements ActionListener, Chan
 		JPanel speedView = makeSliderWithLabels(speedLabel, speedReset, speedSlider);
 		add(speedView);
 		
-		this.add(Box.createRigidArea(new Dimension(0, 20)));
+		this.add(Box.createRigidArea(new Dimension(0, 7)));
 		
 		fastForwardLabel = new JLabel("ff speed");
 		fastForwardReset = new JButton("reset");
@@ -98,7 +98,7 @@ public class SimulationAttributes extends JPanel implements ActionListener, Chan
 		fastForwardSliderView = makeSliderWithLabels(fastForwardLabel, fastForwardReset, fastForwardSlider);
 		add(fastForwardSliderView);
 		
-		this.add(Box.createRigidArea(new Dimension(0, 20)));
+		this.add(Box.createRigidArea(new Dimension(0, 7)));
 	}
 	
 	protected JButton makeNavigationButton(String imageName,

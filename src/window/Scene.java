@@ -95,6 +95,7 @@ public class Scene extends JPanel implements MouseListener {
 			// draw the object and add its grid coordinate
 			g.fillRect(obj.getXPos()-obj.getRadiusInPixels(), obj.getYPos()-obj.getRadiusInPixels(), obj.getWidthInPixels(), obj.getHeightInPixels());
 			
+					
 			// draw the trajectory path
 			if(obj.showPath) {
 				for(int i = 1; i < obj.pathCoords.size(); i++) {

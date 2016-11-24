@@ -1,13 +1,11 @@
 package window.attributeeditor.views;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -23,7 +21,6 @@ import constants.Constants;
 public class ObjectAttributes extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private GridBagConstraints c;
 	private JLabel objectPropertiesLabel;
 	private JLabel colorLabel;
 	private JComboBox<String> colorList;
@@ -44,151 +41,115 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 	private JLabel showTrajectoryLabel;
 	private JCheckBox showTrajectoryCB;
 	
+	
 	public ObjectAttributes() {
-		setSize(new Dimension(Constants.EDITOR_WIDTH, Constants.OBJECT_VIEW_HEIGHT));
-		setBackground(Color.WHITE);
-		setLayout(new GridBagLayout());
-		c = new GridBagConstraints();
-		
-		int y = 0;
-		
+		setMaximumSize(new Dimension(Constants.EDITOR_WIDTH, Constants.OBJECT_VIEW_HEIGHT));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+				
+		JPanel titleView = new JPanel();
+		titleView.setLayout(new BoxLayout(titleView, BoxLayout.X_AXIS));
 		objectPropertiesLabel = new JLabel("Object Properties");
-		c.gridx = 0;
-		c.gridy = y++;
-		add(objectPropertiesLabel, c);
+		titleView.add(objectPropertiesLabel);
+		add(titleView);
 			
 		// color attribute
+		JPanel colorView = new JPanel();
+		colorView.setLayout(new BoxLayout(colorView, BoxLayout.X_AXIS));
 		colorLabel = new JLabel("Color: ");
-		c.gridheight = 1;
-		c.gridx = 0;
-		c.gridy = y;
-		add(colorLabel, c);
+		colorView.add(colorLabel);
+		
 		
 		String[] colors = {"Black", "Blue", "Red", "Green", "Purple" };
 		colorList = new JComboBox<String>(colors);
 		colorList.addActionListener(this);
 		colorList.setSelectedIndex(1);
-		c.gridx = 1;
-		c.gridy = y++;
-		add(colorList, c);
+		colorView.add(colorList);
+		add(colorView);
 				
 		// width attribute
 		widthLabel = new JLabel("width: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(widthLabel, c);
-		
 		widthSpinner = createSpinner(1.0, 0.1, 20, 0.5);
 		widthSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		
-		c.gridx = 1;
-		c.gridy = y++;
-		add(widthSpinner, c);
+	
+		JPanel widthView = makeLabelAndSpinnerView(widthLabel, widthSpinner);
+		add(widthView);
 		
 		// height attribute
-		heightLabel = new JLabel("height: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(heightLabel, c);
-		
+		heightLabel = new JLabel("height: ");		
 		heightSpinner = createSpinner(1.0, 0.1, 20, 0.5);
 		heightSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(heightSpinner, c);
+		
+		JPanel heightView = makeLabelAndSpinnerView(heightLabel, heightSpinner);
+		add(heightView);
 		
 		// mass attribute
-		massLabel = new JLabel("mass: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(massLabel, c);
-		
+		massLabel = new JLabel("mass: ");		
 		massSpinner = createSpinner(1.0, 0.1, 50, 1.0);
 		massSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(massSpinner, c);
+
+		JPanel massView = makeLabelAndSpinnerView(massLabel, massSpinner);
+		add(massView);
 		
 		// x position attribute
-		xPosLabel = new JLabel("x position: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(xPosLabel, c);
-		
+		xPosLabel = new JLabel("x position: ");		
 		xPosSpinner = createSpinner(5.0, 0.0, 100.0, 1.0);
 		xPosSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(xPosSpinner, c);
+		JPanel xPosView = makeLabelAndSpinnerView(xPosLabel, xPosSpinner);
+		add(xPosView);
+		
 		
 		// y position attribute 
-		yPosLabel = new JLabel("y position: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(yPosLabel, c);
-		
+		yPosLabel = new JLabel("y position: ");		
 		yPosSpinner = createSpinner(0, 0.0, 100.0, 1.0);
 		yPosSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(yPosSpinner, c);
+		JPanel yPosView = makeLabelAndSpinnerView(yPosLabel, yPosSpinner);
+		add(yPosView);
+		
 		
 		// velocity attribute
-		currentVelocityLabel = new JLabel("Velocity: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(currentVelocityLabel, c);
-		
+		currentVelocityLabel = new JLabel("Velocity: ");		
 		velocitySpinner = createSpinner(15.0, -500.0, 500.0, 1.0);
 		velocitySpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(velocitySpinner, c);
-		
+		JPanel currentVelocityView = makeLabelAndSpinnerView(currentVelocityLabel, 		velocitySpinner);
+		add(currentVelocityView);
 		
 		// angle attribute
-		angleLabel = new JLabel("Angle: ");
-		c.gridx = 0;
-		c.gridy = y;
-		add(angleLabel, c);
-		
+		angleLabel = new JLabel("Angle: ");		
 		angleSpinner = createSpinner(60, -179, 180, 1.0);
 		angleSpinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {}
 		});
-		c.gridx = 1;
-		c.gridy = y++;
-		add(angleSpinner, c);
+		JPanel angleView = makeLabelAndSpinnerView(angleLabel, angleSpinner);
+		add(angleView);
 		
 		// show trajectory check box
+		JPanel trajectoryView = new JPanel();
+		trajectoryView.setLayout(new BoxLayout(trajectoryView, BoxLayout.X_AXIS));
 		showTrajectoryLabel = new JLabel("Show path trajectory");
-		c.gridx = 0;
-		c.gridy = y;
-		add(showTrajectoryLabel, c);
-		
 		showTrajectoryCB = new JCheckBox();
-		c.gridx = 1;
-		c.gridy = y++;
-		add(showTrajectoryCB, c);
+		
+		trajectoryView.add(showTrajectoryLabel);
+		trajectoryView.add(showTrajectoryCB);
+		add(trajectoryView);
 	}
 	
 	private JSpinner createSpinner(double value, double min, double max, double stepSize) {
@@ -197,6 +158,15 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 		JFormattedTextField jftf = ((JSpinner.DefaultEditor) spinnerEditor).getTextField();
 		jftf.setColumns(3);
 		return spinner;
+	}
+	
+	private JPanel makeLabelAndSpinnerView(JLabel label, JSpinner spinner) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		panel.setMaximumSize(new Dimension(Constants.EDITOR_WIDTH, 25));
+		panel.add(label);		
+		panel.add(spinner);
+		return panel;
 	}
 
 	@Override
