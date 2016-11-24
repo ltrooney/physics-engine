@@ -1,5 +1,6 @@
 package objects;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import window.Engine;
@@ -9,6 +10,7 @@ import constants.Constants;
 public class DynamicObject extends Object {
 	
 	private double initialSimulationTime; // simulation time that the object is created
+	private Color c;
 	
 	private double t; 
 	private double theta; 		// in radians
@@ -26,7 +28,8 @@ public class DynamicObject extends Object {
 
 	public DynamicObject() {
 		super();	// call Object()
-		
+		c = Color.BLACK;
+
 		initialSimulationTime = Engine.getSimulationTimeElapsed();
 		t = 0.0;
 		theta = Math.PI/4;		// 45 deg angle
@@ -53,6 +56,10 @@ public class DynamicObject extends Object {
 		}
 	}
 	
+	public void resetCoordinates() {
+		pathCoords.clear();
+	}
+	
 	public void calculateVelocityComponents() {
 		v0_x = v0*Math.cos(theta);
 		v0_y = v0*Math.sin(theta);
@@ -60,6 +67,9 @@ public class DynamicObject extends Object {
 	
 	public void showPathTrajectory(boolean show) {
 		showPath = show;
+	}
+	public boolean shouldShowPath() {
+		return showPath;
 	}
 	public void simulateMotion() {
 		for(int i = 0; i < 10; i++) {
@@ -74,18 +84,40 @@ public class DynamicObject extends Object {
 		}
 	}
 	
+	public void setColor(Color color) {
+		c = color;
+	}
+	
+	public void setColorString(String color) {
+		if(color.equalsIgnoreCase("black")) {
+			setColor(Color.BLACK);
+		} else if(color.equalsIgnoreCase("blue")) {
+			setColor(Color.BLUE);
+		} else if(color.equalsIgnoreCase("red")) {
+			setColor(Color.RED);
+		} else if(color.equalsIgnoreCase("green")) {
+			setColor(Color.GREEN);
+		} else if(color.equalsIgnoreCase("cyan")) {
+			setColor(Color.CYAN);
+		}
+	}
+	
 	public void setTrajectoryAngleInDegrees(double deg) {
 		theta = deg * (Math.PI/180);
 		calculateVelocityComponents();
 	}
 	
-	public void setInitialVelocity(int velocity) {
-		v0 = velocity;
+	public void setInitialVelocity(double d) {
+		v0 = d;
 		calculateVelocityComponents();
 	}
 	
 	public double getTime() {
 		return Engine.getSimulationTimeElapsed() - initialSimulationTime;
+	}
+	
+	public Color getColor() {
+		return c;
 	}
 	
 	public int getXPos() {

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -16,6 +17,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import objects.DynamicObject;
+import window.Scene;
 import constants.Constants;
 
 public class ObjectAttributes extends JPanel implements ActionListener {
@@ -40,6 +43,9 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 	private JSpinner angleSpinner;
 	private JLabel showTrajectoryLabel;
 	private JCheckBox showTrajectoryCB;
+	private JButton updateProperties;
+	
+	public static DynamicObject focusedObject;
 	
 	
 	public ObjectAttributes() {
@@ -59,7 +65,7 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 		colorView.add(colorLabel);
 		
 		
-		String[] colors = {"Black", "Blue", "Red", "Green", "Purple" };
+		String[] colors = {"Black", "Blue", "Red", "Green", "Cyan"};
 		colorList = new JComboBox<String>(colors);
 		colorList.addActionListener(this);
 		colorList.setSelectedIndex(1);
@@ -146,10 +152,23 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 		trajectoryView.setLayout(new BoxLayout(trajectoryView, BoxLayout.X_AXIS));
 		showTrajectoryLabel = new JLabel("Show path trajectory");
 		showTrajectoryCB = new JCheckBox();
+		showTrajectoryCB.addActionListener(this);
 		
 		trajectoryView.add(showTrajectoryLabel);
 		trajectoryView.add(showTrajectoryCB);
 		add(trajectoryView);
+		
+		JPanel updatePropertiesView = new JPanel();
+		updateProperties = new JButton("Update Properties");
+		updateProperties.addActionListener(this);
+		updatePropertiesView.add(updateProperties);
+		add(updatePropertiesView);
+		
+		focusedObject = null;
+	}
+	
+	public static void setFocusedObject(DynamicObject obj) {
+		focusedObject = obj;
 	}
 	
 	private JSpinner createSpinner(double value, double min, double max, double stepSize) {
@@ -171,34 +190,15 @@ public class ObjectAttributes extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// colorList
-		// massSpinner
-		// widthSpinner
-		// heightSpinner
-		// xPosSpinner
-		// yPosSpinner
-		// velocitySpinner
-		// angleSpinner
-		// showTrajectoryCB
-		if(e.getSource() == colorList) { 
-			System.out.println("color");
-		} else if(e.getSource() == massSpinner) { 
-			System.out.println("spinner");
-		} else if(e.getSource() == widthSpinner) { 
-			
-		} else if(e.getSource() == heightSpinner) { 
-			
-		} else if(e.getSource() == xPosSpinner) { 
-			
-		} else if(e.getSource() == yPosSpinner) { 
-			
-		} else if(e.getSource() == velocitySpinner) { 
-			
-		} else if(e.getSource() == angleSpinner) { 
-			
-		} else if(e.getSource() == showTrajectoryCB) { 
-			
-		} else {}
+		if(e.getSource() == updateProperties && focusedObject != null) { 
+			focusedObject.setColorString(colorList.getSelectedItem().toString());
+			focusedObject.setDimension((double)widthSpinner.getValue(), (double)heightSpinner.getValue());
+			focusedObject.placeAt((double)xPosSpinner.getValue(), (double)yPosSpinner.getValue());
+			focusedObject.setInitialVelocity((double)velocitySpinner.getValue());
+			focusedObject.setTrajectoryAngleInDegrees((double) angleSpinner.getValue());
+			focusedObject.showPathTrajectory(showTrajectoryCB.isSelected());
+			Scene.reset();
+		}
 	}
 	
 }

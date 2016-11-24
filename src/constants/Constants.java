@@ -40,6 +40,6 @@ public class Constants {
 	public static final int FLOOR_X = Grid.X_TICK_START;					// x position of floor
 	
 	// clock
-	public static final int TICK_SPEED = 28;						// number of millis the thread pauses for
+	public static final int TICK_SPEED = 26;						// number of millis the thread pauses for
 	public static final int FRAMES_PER_SECOND = 30;
 }

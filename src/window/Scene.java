@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import objects.DynamicObject;
+import window.attributeeditor.views.ObjectAttributes;
 import constants.Constants;
 
 public class Scene extends JPanel implements MouseListener {
 
-	private ArrayList<DynamicObject> dynamicObjects;
+	private static ArrayList<DynamicObject> dynamicObjects;
 	private static final long serialVersionUID = 1L;
 	private Grid grid;
 	private static boolean isPlaying;
@@ -46,6 +47,10 @@ public class Scene extends JPanel implements MouseListener {
 	public static void reset() {
 		isPlaying = false;
 		Engine.setSimulationTimeElapsed(0.0);
+		
+		for(DynamicObject obj : dynamicObjects) {
+			obj.resetCoordinates();
+		}
 	}
 	public static void skip() {
 		Engine.setSimulationTimeElapsed(Engine.getSimulationTimeElapsed() + skipIncrement);
@@ -83,12 +88,10 @@ public class Scene extends JPanel implements MouseListener {
 		for(DynamicObject obj : dynamicObjects) {
 			g.setColor(obj.getColor());
 			
-			if(obj.getTime() != 0.0) {
+			// updates the path coordinates
+			if(obj.shouldShowPath()) {
 				obj.addCoordinate(obj.getXPos(), obj.getYPos());
-			} else {
-				obj.pathCoords.clear();
 			}
-			
 			
 			//System.out.println(obj + "\n");
 			
@@ -135,7 +138,7 @@ public class Scene extends JPanel implements MouseListener {
 		if(frames == Constants.FRAMES_PER_SECOND) {
 			now = System.currentTimeMillis();
 			timeDifference = now - start;
-			System.out.println(Constants.FRAMES_PER_SECOND + " frames in " + timeDifference + " ms, sim. time elapsed: " + Engine.getSimulationTimeElapsed());
+			//System.out.println(Constants.FRAMES_PER_SECOND + " frames in " + timeDifference + " ms, sim. time elapsed: " + Engine.getSimulationTimeElapsed());
 			start = now;
 			frames = 0;
 		}
@@ -151,9 +154,8 @@ public class Scene extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		for(DynamicObject obj : dynamicObjects) {
 			if((e.getX() > obj.getXPos()-obj.getWidthInPixels()/2) && (e.getX() < obj.getXPos()+obj.getWidthInPixels()/2)) {
-				System.out.println("clicked within x");
 				if((e.getY() > obj.getYPos()-obj.getHeightInPixels()/2) && (e.getY() < obj.getYPos()+obj.getHeightInPixels()/2)) {
-					System.out.println("object clicked");
+					ObjectAttributes.setFocusedObject(obj);
 					return;
 				}
 			}
