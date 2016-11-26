@@ -1,7 +1,9 @@
 package window;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
+
 import objects.DynamicObject;
 import window.attributeeditor.views.AttributeEditor;
 import constants.Constants;
@@ -10,7 +12,7 @@ public class Engine extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private AttributeEditor attrEditor;
+	private static AttributeEditor attrEditor;
 	private Scene scene;
 	private static double simulationTimeElapsed;
 	private static double simulationTimeIncrement;		// # of seconds to increase the simulation time by in each refresh
@@ -29,7 +31,7 @@ public class Engine extends JFrame {
 		setTitle(Constants.ENG_TITLE);
 		
 		simulationTimeElapsed = 0.0;
-		simulationTimeIncrement = 0.0333;
+		simulationTimeIncrement = Constants.TIME_INCREMENT; // 0.0333
 		
 		add(attrEditor, BorderLayout.EAST);
 		pack();				
@@ -73,6 +75,10 @@ public class Engine extends JFrame {
 	
 	public static double getSimulationTimeIncrement() {
 		return simulationTimeIncrement;
+	}
+	
+	public static void updateObjectAttributesView() {
+		attrEditor.getObjectView().updateView();;
 	}
 
 }

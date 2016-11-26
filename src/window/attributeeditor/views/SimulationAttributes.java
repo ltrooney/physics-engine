@@ -21,7 +21,7 @@ import window.Engine;
 import window.Scene;
 import constants.Constants;
 
-public class SimulationAttributes extends JPanel implements ActionListener, ChangeListener {
+public class SimulationAttributes extends GenericAttributesView implements ActionListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel simulation;
@@ -123,26 +123,6 @@ public class SimulationAttributes extends JPanel implements ActionListener, Chan
 		}
 		
 		return button;
-	}
-	
-	private JPanel makeSliderWithLabels(JLabel label, JButton reset, JSlider slider) {
-		JPanel aggregateView = new JPanel();
-		aggregateView.setLayout(new BoxLayout(aggregateView, BoxLayout.Y_AXIS));
-		aggregateView.setMaximumSize(new Dimension(Constants.EDITOR_WIDTH, 200));
-		JPanel labelsView = new JPanel();
-		labelsView.setLayout(new BoxLayout(labelsView, BoxLayout.X_AXIS));
-		JPanel sliderView = new JPanel();
-		sliderView.setLayout(new BoxLayout(sliderView, BoxLayout.X_AXIS));
-		
-		labelsView.add(label);
-		labelsView.add(Box.createRigidArea(new Dimension(60, 0)));
-		
-		labelsView.add(reset);
-		sliderView.add(slider);
-		
-		aggregateView.add(labelsView);
-		aggregateView.add(sliderView);
-		return aggregateView;
 	}
 
 	@Override

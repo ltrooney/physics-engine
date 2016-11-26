@@ -30,7 +30,6 @@ public class Constants {
 	public static final int ENG_WIDTH = SCENE_WIDTH + EDITOR_WIDTH;	// width of engine
 	public static final int ENG_HEIGHT = SCENE_HEIGHT;				// height of engin
 	public static final String ENG_TITLE = "Physics Engine v1.0";	// title of engine
-
 	
 	// path
 	public static final int PATH_RESOLUTION = 3;					// higher value = lower resolution trajectory path
@@ -42,4 +41,5 @@ public class Constants {
 	// clock
 	public static final int TICK_SPEED = 26;						// number of millis the thread pauses for
 	public static final int FRAMES_PER_SECOND = 30;
+	public static final double TIME_INCREMENT = 0.0333;
 }

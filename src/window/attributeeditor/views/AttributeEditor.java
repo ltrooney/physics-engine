@@ -43,6 +43,10 @@ public class AttributeEditor extends JPanel {
 		add(envView);
 	}
 	
+	public ObjectAttributes getObjectView() {
+		return objectView;
+	}
+	
 	private JPanel createSeparatorView() {
 		JPanel separatorView = new JPanel(new BorderLayout());
 		separatorView.setBorder(BorderFactory.createEmptyBorder());

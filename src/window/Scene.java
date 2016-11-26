@@ -156,6 +156,7 @@ public class Scene extends JPanel implements MouseListener {
 			if((e.getX() > obj.getXPos()-obj.getWidthInPixels()/2) && (e.getX() < obj.getXPos()+obj.getWidthInPixels()/2)) {
 				if((e.getY() > obj.getYPos()-obj.getHeightInPixels()/2) && (e.getY() < obj.getYPos()+obj.getHeightInPixels()/2)) {
 					ObjectAttributes.setFocusedObject(obj);
+					Engine.updateObjectAttributesView();
 					return;
 				}
 			}

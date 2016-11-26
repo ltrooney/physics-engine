@@ -140,6 +140,14 @@ public class DynamicObject extends Object {
 		return yPos;
 	}
 	
+	public double getInitialVelocity() {
+		return v0;
+	}
+	
+	public double getTrajectoryAngle() {
+		return theta;
+	}
+	
 	public String toString() {
 		return  "t: " + getTime() + ", theta: " + theta + 
 				"\txf: " + xf + ", vf_x: " + vf_x + ", a_x: " + a_x + "\n" +
